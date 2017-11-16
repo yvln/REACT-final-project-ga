@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+
 import axios from 'axios';
 import './Gameview.css';
 
@@ -25,6 +27,7 @@ class Gameview extends Component {
       score: 0,
       error: 0,
       wins: null,
+      next_level: false,
       
       // game each question
       question: '',
@@ -61,7 +64,6 @@ class Gameview extends Component {
       counter: 5,
       
       // user info
-      tryleft: this.props.user.number_try_game,
       last_try: this.props.user.last_try,
       max_score: this.props.user[`max_score_game_${this.props.whichGame.id}`],
 
@@ -86,21 +88,22 @@ class Gameview extends Component {
     this.setState({
       numberErrorAllowed: this.props.whichGame[`nb_try_max_level_${this.props.user.level}`],
       scoreToReach: this.props.whichGame[`points_to_reach_level_${this.props.user.level}`],
-      hint: this.props.whichGame[`hint`]
+      hint: this.props.whichGame[`hint`],
+      tryleft: this.props.user.number_try_game
     })
   }
   
   renderGame() {
     this.initializeState();
-    this.getGameInfo();
     this.setState({
-      rungame: 'during'
+      rungame: 'during',
+      tryleft: this.props.lesstry,
     }),
     axios.post(`${this.props.url}/games/updateLastPlay`, {
       user_id: this.props.user.id,
       last_try: new Date()
     }).then( res => {
-      console.log('res');
+      console.log('Just updated last day of play!');
     })
     this.setCounter();
     this.renderQuestion();
@@ -108,7 +111,6 @@ class Gameview extends Component {
   }
   
   decreaseCounter() {
-    console.log('IN DECREASE COUNTER');
     this.setState({
       counter: this.state.counter - 1
     }),
@@ -116,9 +118,7 @@ class Gameview extends Component {
   }
   
   checkCounter() {
-    console.log('IN CHECK COUNTER');
     if (this.state.counter === 0) {
-      console.log('COUNTER = 0!');
       this.finishGame('lose');
     }
   }
@@ -128,31 +128,23 @@ class Gameview extends Component {
   }
   
   finishGame(WinOrLose) {
-    console.log('WIN OR LOSE?', WinOrLose);
     clearInterval(this.countdown);
     this.setState({
-      rungame: 'after'
+      rungame: 'after',
+      tryleft: this.state.tryleft - 1
     });
-  
+    this.props.lessTry(this.state.tryleft);
+
     if (WinOrLose === 'lose') {
-      console.log('LOSE???? YES!');
       this.setState({
         wins: false
-      })
-      axios.post(`${this.props.url}/games/updateNumberTry`, {
-        new_nb_try: this.props.user.number_try_game - 1,
-        user_id: this.props.user.id
-      }).then( res => {
-        console.log('IS NUMBER TRY UPDATED? res.data.new_nb_try:', res.data.new_nb_try);
-        this.setState({
-          tryleft: res.data.new_nb_try
-        })
       })
     } else if (WinOrLose === 'win') {
       this.setState({
         wins: true
       })
       if (this.state.score > this.state.max_score) {
+        this.props.isNexLevel();
         axios.post(`${this.props.url}/games/updateMaxScore`, {
           user_id: this.props.user.id,
           score: this.state.score,
@@ -176,7 +168,6 @@ class Gameview extends Component {
   // }
   
   renderQuestion() {
-    console.log('IN RENDER QUESTION');
     axios.get(`${this.props.url}/games/renderQuestion/${this.props.whichGame.id}/${this.props.user.id}`)
     .then( data => {
       this.setState({
@@ -188,7 +179,6 @@ class Gameview extends Component {
   }
   
   displayQuestion() {
-    console.log('IN displayQuestion');
     return (
       <div>
         <div className="question">{this.state.question}</div>
@@ -211,7 +201,6 @@ class Gameview extends Component {
   }
   
   checkAnswer(answerClicked) {
-    console.log('iN checkAnswer');
     if (answerClicked === this.state.response) {
       // add condition if score reached
       this.setState({
@@ -227,7 +216,6 @@ class Gameview extends Component {
   }
   
   gameChecker() {
-    console.log('iN GAME CHECKER');
     if (this.state.error === this.state.numberErrorAllowed) {
       this.finishGame('lose');
     } else if (this.state.score === this.state.scoreToReach ) {
@@ -236,16 +224,15 @@ class Gameview extends Component {
   }
   
   render() {
-    console.log('iN GAME VIEW');
     return (
       <div className="Gameview">
           <div className="GameContainer">
             { ((this.props.user.number_try_game > 0) && (this.state.rungame === 'before')) &&
               <div className="beforePlaying">
-                {this.props.whichGame.name}
-                You have 30 seconds to {this.props.whichGame.rules}
-                Ready ?
-                <button onClick={this.renderGame}>GO</button>
+                <div>{this.props.whichGame.name}</div>
+                <div>You have 30 seconds to {this.props.whichGame.rules}</div>
+                <div>Ready ?</div>
+                <div><button onClick={this.renderGame}>GO</button></div>
               </div>
             }
             { ((this.props.user.number_try_game > 0) && (this.state.rungame === 'during')) &&
@@ -253,10 +240,8 @@ class Gameview extends Component {
                 <div className="upQuestionBlock">
                   <div className="error">Chances: {this.state.error} / {this.state.numberErrorAllowed}</div>
                   <div className="score">Score: {this.state.score} / {this.state.scoreToReach}</div>
-                  {this.state.hint !== 'x' &&
-                    <div className="score">Hint: {this.state.hint}</div>
-                  }
-                  <div className="counter">00:{this.state.counter}</div>
+                  <div className="hint">{this.state.hint === 'x' ? '' : `Hint: ${this.state.hint}`}</div>
+                  <div className="counter">00:{this.state.counter < 10 ? '0' : ''}{this.state.counter}</div>
                 </div>
                 <div className="fullQuestionBlock">{this.displayQuestion()}</div>
               </div>
@@ -265,21 +250,27 @@ class Gameview extends Component {
               <div>
                 {this.state.wins &&
                   <div className="afterPlaying wins">
-                      Want to play to something else?
+                      <div>Congratulations! You won this game level!</div>
+                      <div>Want to play to something else?</div>
+                      <div><Link to='/home'>Home</Link></div>
                   </div>
                 }
                 {!this.state.wins &&
                   <div className="afterPlaying loses">
-                      Want to try again?
-                      <button onClick={this.renderGame}>GO</button>
+                      <div>Too bad!</div>
+                      <div>Want to try again?</div>
+                      <div><button onClick={this.renderGame}>GO</button></div>
+                      <div>Want to play to something else?</div>
+                      <div><Link to='/home'>Home</Link></div>
                   </div>
                 }
               </div>
             }
             { this.props.user.number_try_game <= 0 &&
               <div>
-                Sorry... you tried enough for today!
-                Please wait 
+                <div>Sorry... you tried enough for today!</div>
+                <div>Please wait (nombre dheures et minutes)</div>
+                <div><Link to='/home'>Home</Link></div>
               </div>
             }
           </div>

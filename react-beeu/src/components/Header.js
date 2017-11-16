@@ -38,7 +38,7 @@ class Header extends Component {
         <div className="Games">Games
           <div className="listGames">{this.renderListGames()}</div>
         </div>
-        <div className="NbTries">Tries left for today: {this.props.user.number_try_game}</div>
+        <div className="NbTries">Tries left for today: {this.props.lesstry}</div>
         <div className="Name">{this.props.user.fname}</div>
         <div className="Picture">
           {!this.props.user.picture &&

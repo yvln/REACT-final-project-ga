@@ -30,7 +30,6 @@ class Home extends Component {
   
   renderStatUser() {
     console.log('STAT USER');
-    console.log(this.props.user);
   }
 
   render() {

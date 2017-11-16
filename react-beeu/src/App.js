@@ -30,7 +30,10 @@ class PrivateRoute extends Component {
               url={this.props.url}
               games={this.props.games}
               whichGameClicked={this.props.whichGameClicked}
-              whichGame={this.props.whichGame} />) : (
+              whichGame={this.props.whichGame}
+              isNexLevel={this.props.isNextLevel}
+              lessTry={this.props.lessTry}
+              lesstry={this.props.lesstry} />) : (
             // if not, redirect to /login
             <Redirect to={
               {
@@ -54,13 +57,17 @@ class App extends Component {
     this.state = {
       user: null,
       games: [],
-      whichGame: {}
+      whichGame: {},
+      isNexLevel: false,
+      lesstry: null
     }
     this.setUser = this.setUser.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getGames = this.getGames.bind(this);
     this.logout = this.logout.bind(this);
     this.whichGameClicked = this.whichGameClicked.bind(this);
+    this.isNexLevel = this.isNexLevel.bind(this);
+    this.lessTry = this.lessTry.bind(this);
   }
   
   // LIFE CYCLE 
@@ -74,7 +81,8 @@ class App extends Component {
   setUser(user){
     Cookies.set('token', user.token);
     this.setState({
-      user: user
+      user: user,
+      lesstry: user.number_try_game
     });
   }
   
@@ -91,7 +99,6 @@ class App extends Component {
   getGames() {
     axios.get(`${this.url}/games`)
       .then(response => {
-        console.log("response in GET GAMES. ID ?", response);
   			this.setState({
   				games: response.data.allGames
   			})
@@ -101,6 +108,31 @@ class App extends Component {
   whichGameClicked(game) {
     this.setState({
       whichGame: game
+    })
+  }
+  
+  isNexLevel() {
+    let next_level = true;
+    for (let i = 0 ; i <=6 ; i++) {
+      if (this.user[`max_score_game_${i}`] !== this.state.games[i][`points_to_reach_level_${this.user.level}`]) {
+        next_level = false;
+      }
+    }
+    if (next_level = true) {
+      this.setState({
+        isNexLevel: true
+      })
+    }
+  }
+  
+  lessTry(number) {
+    axios.post(`${this.url}/games/updateNumberTry`, {
+      new_nb_try: number,
+      user_id: this.state.user.id
+    }).then( res => {
+      this.setState({
+        lesstry: res.data.number_try_game
+      })
     })
   }
   
@@ -114,7 +146,8 @@ class App extends Component {
             user={this.state.user}
             whichGameClicked={this.whichGameClicked}
             games={this.state.games}
-            logout={this.logout} />
+            logout={this.logout}
+            lesstry={this.state.lesstry} />
       }
 
       <BrowserRouter>
@@ -149,7 +182,8 @@ class App extends Component {
               logout={this.logout}
               url={this.url}
               games={this.state.games}
-              whichGameClicked={this.whichGameClicked} />
+              whichGameClicked={this.whichGameClicked}
+              isNexLevel={this.isNextLevel} />
             <PrivateRoute
               exact path='/games'
               component={Gameview} 
@@ -157,7 +191,10 @@ class App extends Component {
               logout={this.logout}
               url={this.url}
               games={this.state.games}
-              whichGame={this.state.whichGame} />
+              whichGame={this.state.whichGame}
+              isNexLevel={this.isNextLevel}
+              lessTry={this.lessTry}
+              lesstry={this.state.lesstry} />
         </div>
       </BrowserRouter>
       </div>
