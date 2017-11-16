@@ -31,7 +31,7 @@ class PrivateRoute extends Component {
               games={this.props.games}
               whichGameClicked={this.props.whichGameClicked}
               whichGame={this.props.whichGame}
-              isNexLevel={this.props.isNextLevel}
+              isNextLevel={this.props.isNextLevel}
               lessTry={this.props.lessTry}
               lesstry={this.props.lesstry} />) : (
             // if not, redirect to /login
@@ -58,7 +58,7 @@ class App extends Component {
       user: null,
       games: [],
       whichGame: {},
-      isNexLevel: false,
+      isNextLevel: false,
       lesstry: null
     }
     this.setUser = this.setUser.bind(this);
@@ -66,7 +66,7 @@ class App extends Component {
     this.getGames = this.getGames.bind(this);
     this.logout = this.logout.bind(this);
     this.whichGameClicked = this.whichGameClicked.bind(this);
-    this.isNexLevel = this.isNexLevel.bind(this);
+    this.isNextLevel = this.isNextLevel.bind(this);
     this.lessTry = this.lessTry.bind(this);
   }
   
@@ -91,7 +91,9 @@ class App extends Component {
   }
   
   logout() {
-    console.log('function logout');
+    this.setState({
+      user: null
+    })
   }
   
   // GAMES
@@ -111,16 +113,17 @@ class App extends Component {
     })
   }
   
-  isNexLevel() {
+  isNextLevel() {
+    console.log('this.state.games',this.state.games);
     let next_level = true;
-    for (let i = 0 ; i <=6 ; i++) {
-      if (this.user[`max_score_game_${i}`] !== this.state.games[i][`points_to_reach_level_${this.user.level}`]) {
+    for (let i = 1 ; i <= 6 ; i++ ) {
+      if (this.state.user[`max_score_game_${i}`] !== this.state.games[`${i-1}`][`points_to_reach_level_${this.state.user.level}`]) {
         next_level = false;
       }
     }
     if (next_level = true) {
       this.setState({
-        isNexLevel: true
+        isNextLevel: true
       })
     }
   }
@@ -183,7 +186,7 @@ class App extends Component {
               url={this.url}
               games={this.state.games}
               whichGameClicked={this.whichGameClicked}
-              isNexLevel={this.isNextLevel} />
+              isNextLevel={this.isNextLevel} />
             <PrivateRoute
               exact path='/games'
               component={Gameview} 
@@ -192,7 +195,7 @@ class App extends Component {
               url={this.url}
               games={this.state.games}
               whichGame={this.state.whichGame}
-              isNexLevel={this.isNextLevel}
+              isNextLevel={this.isNextLevel}
               lessTry={this.lessTry}
               lesstry={this.state.lesstry} />
         </div>

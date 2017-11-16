@@ -3,34 +3,75 @@
   top: 0;
   width: 100vw;
   height: 15vh;
-  display: flex;
   background-color: pink;
+}
+
+.HeaderContainer {
+  width: 90%;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
   justify-content: space-around;
   align-items: center;
 }
-    
-    .Games .listGames {
-      list-style-type: none;
-      text-align: left;
-      display: inline;
-      position: absolute;
-      top: 8vh;
-      left: 30px;
+
+    .Games {
+      cursor: pointer;
+      flex:1;
     }
     
-        .listGameHeader {
-          cursor: pointer;
+        .Games .listGamesyes {
+          transition: .5s;
+          display: inline;
+          list-style-type: none;
+          text-align: left;
+          position: absolute;
+          top: 10vh;
+          left: 25px;;
         }
-            
-    .starLevel {
-      width: 20px;
+        
+        .Games .listGamesno {
+          transition: .5s;
+          display: none;
+        }
+        
+    .NbTries, .LastTry {
+      flex:2;
+      text-align: center;
     }
+        
+    .Name {
+      flex:1;
+    } 
     
-    .profilePic {
-      min-height: 80px;
-      max-height: 85px;
-      min-width: 80px;
-      max-width: 85px;
-      border-radius: 50%;
-      border: 3px solid white;
+    .Picture {
+      flex:1;
+      position: relative;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    } 
+    
+        .profilePic {
+          min-height: 80px;
+          max-height: 85px;
+          min-width: 80px;
+          max-width: 85px;
+          border-radius: 50%;
+          border: 3px solid white;
+        }
+        
+        .Level {
+          position: absolute;
+          bottom: 0;
+        }
+          
+            .starLevel {
+              width: 30px;
+            }
+    
+    .Logout {
+      cursor: pointer;
+      flex:1;
+      text-align: right;
     }

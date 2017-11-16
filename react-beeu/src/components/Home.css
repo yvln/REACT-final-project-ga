@@ -3,14 +3,25 @@
   width: 100%;
 }
 
+
+    .Greetings {
+      height: 15vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+    }
+
     .HomeGames {
+      height: 55vh;
       margin: 0 auto;
       width: 80%;
       display: flex;
       justify-content: space-around;
       flex-wrap: wrap;
+      flex: 5;
     }
-
+    
         .gameBox {
           text-decoration: none;
           padding: 30px;
@@ -25,12 +36,16 @@
         }
         
             .gameName {
-              font-size: 30px;
+              font-size: 25px;
               padding-bottom: 20px;
               color: black;
             }
             
             .gameRules {
-              font-size: 18px;
+              font-size: 15px;
               color: grey;
             }
+    
+    .HomeStat {
+      
+    }
