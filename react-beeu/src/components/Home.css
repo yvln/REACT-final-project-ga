@@ -1,0 +1,36 @@
+.Home {
+  padding-top: 15vh;
+  width: 100%;
+}
+
+    .HomeGames {
+      margin: 0 auto;
+      width: 80%;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+        .gameBox {
+          text-decoration: none;
+          padding: 30px;
+          margin: 10px;
+          border: 3px #FAFAFA solid;
+          max-width: 150px;
+          cursor: pointer;
+        }
+        
+        .gameBox:hover {
+          background-color: pink;
+        }
+        
+            .gameName {
+              font-size: 30px;
+              padding-bottom: 20px;
+              color: black;
+            }
+            
+            .gameRules {
+              font-size: 18px;
+              color: grey;
+            }

@@ -1,0 +1,36 @@
+.Header {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 15vh;
+  display: flex;
+  background-color: pink;
+  justify-content: space-around;
+  align-items: center;
+}
+    
+    .Games .listGames {
+      list-style-type: none;
+      text-align: left;
+      display: inline;
+      position: absolute;
+      top: 8vh;
+      left: 30px;
+    }
+    
+        .listGameHeader {
+          cursor: pointer;
+        }
+            
+    .starLevel {
+      width: 20px;
+    }
+    
+    .profilePic {
+      min-height: 80px;
+      max-height: 85px;
+      min-width: 80px;
+      max-width: 85px;
+      border-radius: 50%;
+      border: 3px solid white;
+    }
