@@ -59,22 +59,17 @@ class Home extends Component {
         }
       )
     })
-    console.log('DATA IN RENDER STAT', data);
-        
     return (
-      <RadarChart cx={300} cy={250} outerRadius={150} width={600} height={500} data={data}>
+      <RadarChart outerRadius={150} width={600} height={500} data={data}>
           <PolarGrid />
           <PolarAngleAxis dataKey="gameName" />
           <PolarRadiusAxis dataKey="scoretoreach" />
           <Radar dataKey="userscore" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
       </RadarChart>
     )
-        
   }
 
   render() {
-    // console.log(this.props.user);
-    // console.log(this.props.games);
     return (
       <div className="Home">
         <div className="Greetings">Hello, {this.props.user.fname}!</div>

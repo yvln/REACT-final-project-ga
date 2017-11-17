@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+
 import './Header.css';
 
 class Header extends Component {
@@ -67,10 +69,14 @@ class Header extends Component {
             <div className="NbTries">Tries left for today: <span className="bigger">{this.props.nbTryGame}</span></div>
             <div className="Picture">
               {!this.props.user.picture &&
-                <img alt='yourpic' className='profilePic' src='/images/user.png' />
+                <Link to="/profile">
+                  <img alt='yourpic' className='profilePic' src='/images/user.png' />
+                </Link>
               }
               {this.props.user.picture &&
-                <img alt='yourpic' className='profilePic' src={this.props.user.picture} />
+                <Link to="/profile">
+                  <img alt='yourpic' className='profilePic' src={this.props.user.picture} />
+                </Link>
               }
               <div className="Level">{this.renderLevel()}</div>
             </div>

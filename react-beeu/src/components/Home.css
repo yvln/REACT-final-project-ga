@@ -51,13 +51,6 @@
     .HomeStat {
       display: flex;
       flex-direction: column;
-      width: 
+      justify-content: center;
+      align-items: center;
     }
-    
-        .oneStat {
-          display: flex;
-        }
-          
-            .lineStat {
-              display: flex;
-            }

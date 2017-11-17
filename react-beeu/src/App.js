@@ -8,6 +8,7 @@ import Signup from './components/Signup';
 import Header from './components/Header';
 import Home from './components/Home';
 import Gameview from './components/Gameview';
+import Userprofile from './components/Userprofile';
 
 import './App.css';
 
@@ -154,7 +155,8 @@ class App extends Component {
         userDataScore.push(res.data.data[`max_score_game_${i}`])
       }
       this.setState({
-        scoreData: userDataScore
+        scoreData: userDataScore,
+        user: res.data.data
       })
     }).catch(err => {console.log('ERROR UPDATE USER INFO', err )})
   }
@@ -208,69 +210,74 @@ class App extends Component {
   render() {
     return (
       <div>
-      { this.state.user &&
-          <Header
-            user={this.state.user}
-            whichGameClicked={this.whichGameClicked}
-            games={this.state.games}
-            logout={this.logout}
-            nbTryGame={this.state.nbTryGame} />
-      }
-
-      <BrowserRouter>
-        <div className='App'>
-          <Route
-            exact path="/"
-            render = {() => 
-              <Redirect to="/home" />
-            } />
-          <Route 
-            exact path='/login'
-            render = {() => {
-              return (
-                <Login 
-                  url={this.url}
-                  setUser={this.setUser} />
-              )
-            }} />
-          <Route 
-            exact path='/signup'
-            render = {() => {
-              return (
-                <Signup 
-                  url={this.url}
-                  setUser={this.setUser} />
-              )
-            }} />
-            <PrivateRoute
-              exact path='/home'
-              component={Home}
-              isAuthenticated={this.isAuthenticated()}
-              initializeDay={this.initializeDay}
-              logout={this.logout}
-              url={this.url}
-              games={this.state.games}
-              whichGameClicked={this.whichGameClicked}
-              isNextLevel={this.isNextLevel}
-              next_level={this.state.next_level}
-              scoreData={this.state.scoreData} />
-            <PrivateRoute
-              exact path='/games'
-              component={Gameview} 
-              isAuthenticated={this.isAuthenticated()}
-              initializeDay={this.initializeDay}
-              updateUserInfo={this.updateUserInfo}
-              logout={this.logout}
-              url={this.url}
-              games={this.state.games}
-              whichGame={this.state.whichGame}
-              isNextLevel={this.isNextLevel}
-              lessTry={this.lessTry}
-              nbTryGame={this.state.nbTryGame}
-              next_level={this.state.next_level}
-              winGame={this.state.winGame} />
-        </div>
-      </BrowserRouter>
+        <BrowserRouter>
+          <div className='App'>
+            { this.state.user &&
+                <Header
+                  user={this.state.user}
+                  whichGameClicked={this.whichGameClicked}
+                  games={this.state.games}
+                  logout={this.logout}
+                  nbTryGame={this.state.nbTryGame} />
+            }
+            <Route
+              exact path="/"
+              render = {() => 
+                <Redirect to="/home" />
+              } />
+            <Route 
+              exact path='/login'
+              render = {() => {
+                return (
+                  <Login 
+                    url={this.url}
+                    setUser={this.setUser} />
+                )
+              }} />
+            <Route 
+              exact path='/signup'
+              render = {() => {
+                return (
+                  <Signup 
+                    url={this.url}
+                    setUser={this.setUser} />
+                )
+              }} />
+              <PrivateRoute
+                exact path='/home'
+                component={Home}
+                isAuthenticated={this.isAuthenticated()}
+                initializeDay={this.initializeDay}
+                logout={this.logout}
+                url={this.url}
+                games={this.state.games}
+                whichGameClicked={this.whichGameClicked}
+                isNextLevel={this.isNextLevel}
+                next_level={this.state.next_level}
+                scoreData={this.state.scoreData} />
+              <PrivateRoute
+                exact path='/games'
+                component={Gameview} 
+                isAuthenticated={this.isAuthenticated()}
+                initializeDay={this.initializeDay}
+                updateUserInfo={this.updateUserInfo}
+                logout={this.logout}
+                url={this.url}
+                games={this.state.games}
+                whichGame={this.state.whichGame}
+                isNextLevel={this.isNextLevel}
+                lessTry={this.lessTry}
+                nbTryGame={this.state.nbTryGame}
+                next_level={this.state.next_level}
+                winGame={this.state.winGame} />
+              <PrivateRoute
+                exact path='/profile'
+                component={Userprofile}
+                isAuthenticated={this.isAuthenticated()}
+                url={this.url}
+                updateUserInfo={this.updateUserInfo} />
+          </div>
+        </BrowserRouter>
       </div>
     );
   }
