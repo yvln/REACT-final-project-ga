@@ -66,6 +66,11 @@
                   color: grey;
                 }
                 
+                .home {
+                  text-decoration: none;
+                  color: black;
+                }
+                
                     .bigger {
                       font-size: 25px;
                       color: black;
@@ -144,3 +149,11 @@
                           justify-content: center;
                           align-items: center;
                         }
+                        
+@media screen and (max-width: 710px) {
+
+  .GameContainer {
+    width: 95%;
+  }
+  
+}

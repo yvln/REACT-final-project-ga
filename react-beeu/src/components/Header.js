@@ -13,9 +13,14 @@ class Header extends Component {
     }
     
     this.renderLevel = this.renderLevel.bind(this);
-    this.finishGame = this.finishGame.bind(this);
     this.renderListGames = this.renderListGames.bind(this);
     this.toggleDisplayList = this.toggleDisplayList.bind(this);
+  }
+  
+  componentDidMount() {
+    this.setState({
+      tryleft: this.props.user.number_try_game
+    })
   }
   
   renderLevel() {
@@ -28,20 +33,18 @@ class Header extends Component {
     }
     return starsLevel;
   }
-  
-  finishGame() {
-    this.props.lessTry(this.state.tryleft - 1);
-  }
 
   renderListGames() {
     if (this.props.games !== undefined) {
       return this.props.games.map(e => {
         return(
-          <div className='listGameHeader'
-               key={e.name}
-               onClick={() => {this.props.whichGameClicked(e); this.finishGame()}}>
-            {e.name}
-          </div>
+            <Link className='listGameHeader' to='/games'>
+              <div 
+                   key={e.name}
+                   onClick={() => {this.props.whichGameClicked(e)}}>
+                {e.name}
+              </div>
+            </Link>
         )
       })
     }
@@ -66,7 +69,7 @@ class Header extends Component {
             <div className="Games" onClick={this.toggleDisplayList}>Games
               <div className={`listGames${this.state.listGames}`}>{this.renderListGames()}</div>
             </div>
-            <div className="NbTries">Tries left for today: <span className="bigger">{this.props.nbTryGame}</span></div>
+            <div className="NbTries">Tries left for today: {this.props.nbTryGame}</div>
             <div className="Picture">
               {!this.props.user.picture &&
                 <Link to="/profile">

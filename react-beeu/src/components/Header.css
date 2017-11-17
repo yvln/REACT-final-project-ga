@@ -18,6 +18,9 @@
     .Games {
       cursor: pointer;
       flex:1;
+      position: relative;
+      text-align: left;
+      padding-left: 20px;
     }
     
         .Games .listGamesyes {
@@ -26,9 +29,21 @@
           list-style-type: none;
           text-align: left;
           position: absolute;
-          top: 10vh;
-          left: 25px;;
+          top: 23px;
+          left: 0px;
+          font-size: 15px;
+          background: linear-gradient(to bottom, rgba(255,255,255, 0), rgba(255,255,255, 1));
+          padding: 0px 20px 20px 20px;
         }
+        
+            .listGameHeader {
+              text-decoration: none;
+              color: grey;
+            }
+            
+            .listGameHeader:hover {
+              color: black;
+            }
         
         .Games .listGamesno {
           transition: .5s;
@@ -50,13 +65,13 @@
       text-align: center;
       display: flex;
       justify-content: center;
+      width: 85px;
+      height: 85px;
     } 
     
         .profilePic {
-          min-height: 80px;
-          max-height: 85px;
-          min-width: 80px;
-          max-width: 85px;
+          width: 100%;
+          height: auto;
           border-radius: 50%;
           border: 3px solid white;
         }
@@ -75,3 +90,24 @@
       flex:1;
       text-align: right;
     }
+    
+@media screen and (max-width: 710px) {
+  
+  .Games {
+    padding-left: 5px;
+  }
+  
+      .Games .listGamesyes {
+        padding: 0px 5px 5px 5px;
+      }
+      
+  
+}
+
+@media screen and (max-width: 600px) {
+  
+  .Header {
+    font-size: 12px;
+  }
+  
+}

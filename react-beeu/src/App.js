@@ -75,8 +75,9 @@ class App extends Component {
 
     this.getGames = this.getGames.bind(this);
     this.initializeDay = this.initializeDay.bind(this);
-    
     this.whichGameClicked = this.whichGameClicked.bind(this);
+    
+    this.updateUserInfo = this.updateUserInfo.bind(this);
     this.isNextLevel = this.isNextLevel.bind(this);
     this.lessTry = this.lessTry.bind(this);
   }
@@ -150,6 +151,7 @@ class App extends Component {
   updateUserInfo(id) {
     axios.get(`${this.url}/userinfo/${id}`)
     .then( res => {
+      console.log('res.data.data', res.data.data);
       const userDataScore = [];
       for (let i = 1 ; i <= 6 ; i++ ) {
         userDataScore.push(res.data.data[`max_score_game_${i}`])
@@ -158,7 +160,7 @@ class App extends Component {
         scoreData: userDataScore,
         user: res.data.data
       })
-    }).catch(err => {console.log('ERROR UPDATE USER INFO', err )})
+    })
   }
   
   isNextLevel(score, user_id) {
@@ -218,7 +220,8 @@ class App extends Component {
                   whichGameClicked={this.whichGameClicked}
                   games={this.state.games}
                   logout={this.logout}
-                  nbTryGame={this.state.nbTryGame} />
+                  nbTryGame={this.state.nbTryGame}
+                  lessTry={this.lessTry} />
             }
             <Route
               exact path="/"

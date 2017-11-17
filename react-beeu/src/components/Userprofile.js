@@ -30,7 +30,13 @@ class UserProfile extends Component {
   }
   
   getInfoUser() {
-    this.props.updateUserInfo();
+    this.props.updateUserInfo(this.props.user.id);
+    this.setState({
+      picture: this.props.user.picture,
+      username: this.props.user.username,
+      fname: this.props.user.fname,
+      lname: this.props.user.lname
+    })
   }
   
   onChange(e) {
@@ -74,56 +80,62 @@ class UserProfile extends Component {
   render() {
     return (
       <div className="UserProfile">
-        THIS IS THE USER PROFILE
-        <div className='profilePicDiv' onClick={() => {this.makeAppear('pictureForm')}}><img src={this.state.picture} alt="Add Profile Picture"/></div>
-          <div className={this.state.pictureForm ? 'yes' : 'no'}>
-            <form onSubmit={this.changeOnDb} >
-              <input type="text" name="picture" value={this.state.picture} onChange={this.onChange} />
-              <input type="submit" value="OK" />
-            </form>
-          </div>
+        
+        <div className="UserProfileContainer">
+        
+          <div className='labelUserProfileStatic LevelUserProfile'>Level {this.props.user.level}</div>
+          <div className='labelUserProfileStatic RegisUserProfile'>Registration date {this.props.user.date_registr.substring(0,10)}</div>
+          <div className='profilePicDiv' onClick={() => {this.makeAppear('pictureForm')}}><img className='displayBigProfilPic' src={this.state.picture} alt="Add Profile Picture"/></div>
+            <div className={this.state.pictureForm ? 'yes' : 'no'}>
+              <form onSubmit={this.changeOnDb} >
+                <input type="text" name="picture" value={this.state.picture} onChange={this.onChange} placeholder="image url" />
+                <input className="ok" type="submit" value="OK" />
+              </form>
+            </div>
+            
+          <div className='labelUserProfile' onClick={() => {this.makeAppear('usernameForm')}}>Username</div>
+              {!this.state.usernameForm && 
+                <div className="inputUserProfile">
+                  {this.state.username}
+                </div>
+              }
+              {this.state.usernameForm &&
+                <form onSubmit={this.changeOnDb} >
+                  <input type="text" name="username" value={this.state.username} onChange={this.onChange} />
+                  <input className="ok" type="submit" value="OK" />
+                </form>
+              }
           
-        <div onClick={() => {this.makeAppear('usernameForm')}}>Username:</div>
-            {!this.state.usernameForm && 
-              <div>
-                {this.state.username}
-              </div>
-            }
-            {this.state.usernameForm &&
-              <form onSubmit={this.changeOnDb} >
-                <input type="text" name="username" value={this.state.username} onChange={this.onChange} />
-                <input type="submit" value="OK" />
-              </form>
-            }
-        
-        <div onClick={() => {this.makeAppear('fnameForm')}}>First name:</div>
-            {!this.state.fnameForm && 
-              <div>
-                {this.state.fname}
-              </div>
-            }
-            {this.state.fnameForm &&
-              <form onSubmit={this.changeOnDb} >
-                <input type="text" name="fname" value={this.state.fname} onChange={this.onChange} />
-                <input type="submit" value="OK" />
-              </form>
-            }
+          <div className='labelUserProfile' onClick={() => {this.makeAppear('fnameForm')}}>First name</div>
+              {!this.state.fnameForm && 
+                <div className="inputUserProfile">
+                  {this.state.fname}
+                </div>
+              }
+              {this.state.fnameForm &&
+                <form onSubmit={this.changeOnDb} >
+                  <input type="text" name="fname" value={this.state.fname} onChange={this.onChange} />
+                  <input className="ok" type="submit" value="OK" />
+                </form>
+              }
 
-        <div onClick={() => {this.makeAppear('lnameForm')}}>Last name:</div>
-            {!this.state.lnameForm && 
-              <div>
-                {this.state.lname}
-              </div>
-            }
-            {this.state.lnameForm &&
-              <form onSubmit={this.changeOnDb} >
-                <input type="text" name="lname" value={this.state.lname} onChange={this.onChange} />
-                <input type="submit" value="OK" />
-              </form>
-            }
+          <div className='labelUserProfile' onClick={() => {this.makeAppear('lnameForm')}}>Last name</div>
+              {!this.state.lnameForm && 
+                <div className="inputUserProfile">
+                  {this.state.lname}
+                </div>
+              }
+              {this.state.lnameForm &&
+                <form onSubmit={this.changeOnDb} >
+                  <input type="text" name="lname" value={this.state.lname} onChange={this.onChange} />
+                  <input className="ok" type="submit" value="OK" />
+                </form>
+              }
         
-        <div>Level: {this.state.level}</div>
-        <div>Registration date: {this.props.user.date_registr.substring(0,10)}</div>
+          <Link to='/home'>Home</Link>
+          
+        </div>
+          
       </div>
     );
   }

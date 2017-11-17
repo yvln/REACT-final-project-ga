@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import {Radar, RadarChart, PolarGrid, Legend,
+import {Radar, RadarChart, PolarGrid,
          PolarAngleAxis, PolarRadiusAxis} from 'recharts';
 
 import './Home.css';

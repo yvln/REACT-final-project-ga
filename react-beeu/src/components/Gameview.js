@@ -225,6 +225,7 @@ class Gameview extends Component {
                   <div className='gamename'>{this.props.whichGame.name}</div>
                   <div className='hint'>You have <span className="bigger">30</span> seconds to {this.props.whichGame.rules} <br /><span className="bigger">Ready</span> ?</div>
                   <div className='go' onClick={this.renderGame}>GO</div>
+                  <Link className='home' to='/home'>Home</Link>
                 </div>
               }
               { ((this.props.nbTryGame > 0) && (this.state.rungame === 'during')) &&
@@ -247,7 +248,7 @@ class Gameview extends Component {
                     <div className="wins">
                         <div className="bigger">Congratulations! You won this game level!</div>
                         <div>Want to play to something else?</div>
-                        <div><Link to='/home'>Home</Link></div>
+                        <Link className='home' to='/home'>Home</Link>
                     </div>
                   }
                   { (this.state.wins && this.props.winGame) &&
@@ -261,7 +262,7 @@ class Gameview extends Component {
                         <div className="hint">Want to try again?</div>
                         <div className='go' onClick={this.renderGame}>GO</div>
                         <div className="hint">Want to play to something else?</div>
-                        <div><Link to='/home'>Home</Link></div>
+                        <Link className='home' to='/home'>Home</Link>
                     </div>
                   }
                 </div>
@@ -272,7 +273,7 @@ class Gameview extends Component {
                     Sorry... you tried enough for today!<br />
                     Please wait tomorrow!
                   </div>
-                  <div><Link to='/home'>Home</Link></div>
+                  <Link to='/home'><div className='home'>Home</div></Link>
                 </div>
               }
           </div>

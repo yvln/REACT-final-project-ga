@@ -26,10 +26,10 @@
     
         .gameBox {
           text-decoration: none;
-          padding: 30px;
-          margin: 10px;
+          padding: 1%;
+          margin: 2% 0;
           border: 3px #FAFAFA solid;
-          max-width: 150px;
+          width: 27%;
           cursor: pointer;
         }
         
@@ -54,3 +54,29 @@
       justify-content: center;
       align-items: center;
     }
+
+@media screen and (max-width: 900px) {
+  
+    .HomeGames {
+      width: 100%;
+    }
+    
+} 
+
+@media screen and (max-width: 710px) {
+  
+    .gameBox {
+      padding: .5%;
+      margin: 1% 0;
+    }
+  
+        .gameName {
+          font-size: 20px;
+          padding-bottom: 10px;
+        }
+        
+        .gameRules {
+          font-size: 12px;
+        }
+    
+} 
