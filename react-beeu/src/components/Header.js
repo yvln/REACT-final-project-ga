@@ -6,10 +6,12 @@ class Header extends Component {
     super(props);
     
     this.state = {
-      listGames: 'no'
+      listGames: 'no',
+      tryleft: null
     }
     
     this.renderLevel = this.renderLevel.bind(this);
+    this.finishGame = this.finishGame.bind(this);
     this.renderListGames = this.renderListGames.bind(this);
     this.toggleDisplayList = this.toggleDisplayList.bind(this);
   }
@@ -24,13 +26,24 @@ class Header extends Component {
     }
     return starsLevel;
   }
+  
+  finishGame() {
+    this.setState({
+      tryleft: this.props.user.tryleft - 1
+    });
+    this.props.lessTry(this.state.tryleft);
+  }
 
   renderListGames() {
     const listGames = [];
     if (this.props.games !== undefined) {
       this.props.games.map(e => {
         listGames.push(
-          <div className='listGameHeader' key={e.name} onClick={() => {this.props.whichGameClicked(e)}}>{e.name}</div>
+          <div className='listGameHeader'
+               key={e.name}
+               onClick={() => {this.props.whichGameClicked(e); this.finishGame}}>
+            {e.name}
+          </div>
         )
       })
     }

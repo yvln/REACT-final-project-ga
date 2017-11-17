@@ -6,8 +6,19 @@ class Home extends Component {
   constructor(props){
     super(props);
     
+    this.state = {
+      scoreData: []
+    }
+    
     this.renderGamesBox = this.renderGamesBox.bind(this);
     this.renderStatUser = this.renderStatUser.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.initializeDay();
+    this.setState({
+      scoreData: this.props.scoreData
+    });
   }
   
   renderGamesBox() {
@@ -29,31 +40,29 @@ class Home extends Component {
   }
       
   renderStatUser() {
-    console.log('STAT USER');
-    const stats = [];
     let userData = 0;
     if (this.props.user[`max_score_game_${this.props.user.level}`] === null) {
       userData = 0
     } else {
       userData = this.props.user[`max_score_game_${this.props.user.level}`]
     }
-    this.props.games.map( game => {
-      console.log('IN MAP');
-      console.log('USER DATA', this.props.user);
-      stats.push(
+    return this.props.games.map( game => {
+      console.log('this.props.games', this.props.games);
+      console.log('game', game);
+      console.log('this.props.user.level', this.props.user.level);
+      return(
         <div className="oneStat">
           <div className="gameNameStat">{game.name}</div>
-          <div className="userGameStat">{userData}</div>
+          <div className="userGameStat">{this.props.scoreData[this.props.games.indexOf(game)]}</div>
           <div className="maxGameStat">{game[`points_to_reach_level_${this.props.user.level}`]}</div>
         </div>
       )
     })
-    return stats;
   }
 
   render() {
-    console.log(this.props.user);
-    console.log(this.props.games);
+    // console.log(this.props.user);
+    // console.log(this.props.games);
     return (
       <div className="Home">
         <div className="Greetings">Hello, {this.props.user.fname}!</div>

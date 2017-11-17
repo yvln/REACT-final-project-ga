@@ -132,7 +132,14 @@ class Gameview extends Component {
       tryleft: this.state.tryleft - 1
     });
     this.props.lessTry(this.state.tryleft);
-
+      
+    if (this.state.score > this.state.max_score) {
+      this.props.isNextLevel(this.state.score);
+      this.setState({
+        max_score: this.state.score
+      })
+    }
+    
     if (WinOrLose === 'lose') {
       this.setState({
         wins: false
@@ -141,28 +148,6 @@ class Gameview extends Component {
       this.setState({
         wins: true
       })
-      if (this.state.score > this.state.max_score) {
-        console.log('COMPARING');
-        console.log(this.state.score);
-        console.log('WITH');
-        console.log(this.state.max_score);
-        console.log('IF FIRST >, should axios call');
-        this.props.isNextLevel();
-        this.setState({
-          max_score: this.state.score
-        })
-        
-        //  AXIOS CALL IN APP:JS + SET STATE TO SAVE RESPONSE + PASS STATE IN PROPS TO HOME (AND GAME VIEW?)
-        
-        // axios.post(`${this.props.url}/games/updateMaxScore`, {
-        //   user_id: this.props.user.id,
-        //   score: this.state.score,
-        //   game_id: this.props.whichGame.id
-        // }).then( res => {
-        //   console.log('IN WIN, BEST SCORE, AFTER AXIOS CALL');
-        // })
-
-      }
     }
   }
   
@@ -257,11 +242,19 @@ class Gameview extends Component {
               }
               { ((this.props.lesstry > 0) && (this.state.rungame === 'after')) &&
                 <div className="afterPlaying" >
-                  {this.state.wins &&
+                  { (this.state.wins && !this.props.winGame) &&
                     <div className="wins">
                         <div className="bigger">Congratulations! You won this game level!</div>
+                        // Share results
                         <div>Want to play to something else?</div>
                         <div><Link to='/home'>Home</Link></div>
+                    </div>
+                  }
+                  { (this.state.wins && this.props.winGame) &&
+                    <div className="wins">
+                        <div className="bigger">Congratulations! You finished the game!</div>
+                        // Share results
+                        // <div><Link to='/home'>Restart</Link></div>
                     </div>
                   }
                   {!this.state.wins &&

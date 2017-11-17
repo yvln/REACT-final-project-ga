@@ -28,12 +28,16 @@ class PrivateRoute extends Component {
               user={this.props.isAuthenticated}
               logout={this.props.logout}
               url={this.props.url}
+              initializeDay={this.props.initializeDay}
               games={this.props.games}
               whichGameClicked={this.props.whichGameClicked}
               whichGame={this.props.whichGame}
               isNextLevel={this.props.isNextLevel}
+              next_level={this.props.next_level}
               lessTry={this.props.lessTry}
-              lesstry={this.props.lesstry} />) : (
+              lesstry={this.props.lesstry}
+              scoreData={this.props.scoreData}
+              winGame={this.props.winGame} />) : (
             // if not, redirect to /login
             <Redirect to={
               {
@@ -59,12 +63,17 @@ class App extends Component {
       games: [],
       whichGame: {},
       isNextLevel: false,
-      lesstry: null
+      lesstry: null,
+      scoreData: [],
+      winGame: false
     }
     this.setUser = this.setUser.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
-    this.getGames = this.getGames.bind(this);
     this.logout = this.logout.bind(this);
+
+    this.getGames = this.getGames.bind(this);
+    this.initializeDay = this.initializeDay.bind(this);
+    
     this.whichGameClicked = this.whichGameClicked.bind(this);
     this.isNextLevel = this.isNextLevel.bind(this);
     this.lessTry = this.lessTry.bind(this);
@@ -107,25 +116,87 @@ class App extends Component {
 		}).catch(err => {console.log('err', err)});
   }
   
+  initializeDay() {
+    console.log('IN initializeDay');
+    let getToday = '';
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth()+1;
+    const day = new Date().getDate();
+    getToday = `${year}-${month}-${day}`;
+    if (this.state.user.last_try !== null) {
+      if (this.state.user.last_try.substring(0,10) === getToday) {
+        axios.post(`${this.url}/games/newDay`, {
+          user_id: this.state.user.id
+        }).then( res => {
+          console.log('IN AXIOS POST NEW DAY, THEN RES.DATA', res.data);
+          this.setState({
+            lesstry: res.data.number_try_game
+          })
+        })
+      }
+    }
+    const userDataScore = [];
+    for (let i = 1 ; i <= 6 ; i++ ) {
+      console.log('IN FOR LOOP i =', i);
+      let userData = '';
+      if (this.state.user[`max_score_game_${i}`] === null) {
+        userData = 0;
+      } else {
+        userData = this.state.user[`max_score_game_${i}`]
+      }
+      userDataScore.push(
+        userData
+      )
+      console.log('userDataScore', userDataScore);
+    }
+    this.setState({
+      scoreData: userDataScore
+    })
+    console.log('END OF initializeDay, this.state.scoreData', this.state.scoreData);
+  }
+  
   whichGameClicked(game) {
     this.setState({
       whichGame: game
     })
   }
   
-  isNextLevel() {
-    console.log('this.state.games',this.state.games);
-    let next_level = true;
-    for (let i = 1 ; i <= 6 ; i++ ) {
-      if (this.state.user[`max_score_game_${i}`] !== this.state.games[`${i-1}`][`points_to_reach_level_${this.state.user.level}`]) {
-        next_level = false;
+  isNextLevel(score) {
+    axios.post(`${this.url}/games/updateMaxScore`, {
+      user_id: this.state.user.id,
+      score: score,
+      game_id: this.state.whichGame.id
+    }).then( res => {
+      console.log('AXIOS CALL UPDATE MAX SCORE, in then', res.data);
+      let next_level = null;
+      for (let i = 1 ; i <= 6 ; i++ ) {
+        if (this.state.user[`max_score_game_${i}`] !== this.state.games[`${i-1}`][`points_to_reach_level_${this.state.user.level}`]) {
+          next_level = false;
+        }
       }
-    }
-    if (next_level = true) {
-      this.setState({
-        isNextLevel: true
-      })
-    }
+      if (next_level = true) {
+        this.setState({
+          next_level: true
+        });
+        if (this.state.user.level + 1 < 4) {
+          this.setState({
+            winGame: true
+          });
+        } else {
+          axios.post(`${this.url}/games/updateLevel`, {
+            user_id: this.state.user.id,
+            user_level: this.state.user.level + 1
+          }).then( res => {
+            // this.setState({
+            //   user: {
+            //     level: this.state.user.id,
+            //   }
+            // })
+            console.log('Level has been updated');
+          })
+        }
+      }
+    })
   }
   
   lessTry(number) {
@@ -182,22 +253,28 @@ class App extends Component {
               exact path='/home'
               component={Home}
               isAuthenticated={this.isAuthenticated()}
+              initializeDay={this.initializeDay}
               logout={this.logout}
               url={this.url}
               games={this.state.games}
               whichGameClicked={this.whichGameClicked}
-              isNextLevel={this.isNextLevel} />
+              isNextLevel={this.isNextLevel}
+              next_level={this.state.next_level}
+              scoreData={this.state.scoreData} />
             <PrivateRoute
               exact path='/games'
               component={Gameview} 
               isAuthenticated={this.isAuthenticated()}
+              initializeDay={this.initializeDay}
               logout={this.logout}
               url={this.url}
               games={this.state.games}
               whichGame={this.state.whichGame}
               isNextLevel={this.isNextLevel}
               lessTry={this.lessTry}
-              lesstry={this.state.lesstry} />
+              lesstry={this.state.lesstry}
+              next_level={this.state.next_level}
+              winGame={this.state.winGame} />
         </div>
       </BrowserRouter>
       </div>
