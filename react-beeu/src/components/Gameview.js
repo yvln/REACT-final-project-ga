@@ -99,8 +99,8 @@ class Gameview extends Component {
     this.renderQuestion();
     this.setState({
       rungame: 'during',
-      tryleft: this.props.lesstry,
-    }),
+      tryleft: this.props.nbTryGame,
+    });
     axios.post(`${this.props.url}/games/updateLastPlay`, {
       user_id: this.props.user.id,
       last_try: new Date()
@@ -115,7 +115,7 @@ class Gameview extends Component {
   decreaseCounter() {
     this.setState({
       counter: this.state.counter - 1
-    }),
+    });
     this.checkCounter();
   }
   
@@ -126,15 +126,16 @@ class Gameview extends Component {
   }
 
   finishGame(WinOrLose) {
+    console.log('1 IN GAMEVIEW FINISH GAME');
     clearInterval(this.countdown);
+    this.props.lessTry(this.state.tryleft-1);
     this.setState({
       rungame: 'after',
       tryleft: this.state.tryleft - 1
     });
-    this.props.lessTry(this.state.tryleft);
       
     if (this.state.score > this.state.max_score) {
-      this.props.isNextLevel(this.state.score);
+      this.props.isNextLevel(this.state.score, this.props.user.id);
       this.setState({
         max_score: this.state.score
       })
@@ -219,14 +220,14 @@ class Gameview extends Component {
     return (
       <div className="Gameview">
           <div className="GameContainer">
-              { ((this.props.lesstry > 0) && (this.state.rungame === 'before')) &&
+              { ((this.props.nbTryGame > 0) && (this.state.rungame === 'before')) &&
                 <div className="beforePlaying">
                   <div className='gamename'>{this.props.whichGame.name}</div>
                   <div className='hint'>You have <span className="bigger">30</span> seconds to {this.props.whichGame.rules} <br /><span className="bigger">Ready</span> ?</div>
                   <div className='go' onClick={this.renderGame}>GO</div>
                 </div>
               }
-              { ((this.props.lesstry > 0) && (this.state.rungame === 'during')) &&
+              { ((this.props.nbTryGame > 0) && (this.state.rungame === 'during')) &&
                 <div className="gameBlock">
                   <div className="upQuestionBlock">
                     <div className="gamename">{this.props.whichGame.name}</div>
@@ -240,12 +241,11 @@ class Gameview extends Component {
                   <div className="fullQuestionBlock">{this.displayQuestion()}</div>
                 </div>
               }
-              { ((this.props.lesstry > 0) && (this.state.rungame === 'after')) &&
+              { ((this.props.nbTryGame > 0) && (this.state.rungame === 'after')) &&
                 <div className="afterPlaying" >
                   { (this.state.wins && !this.props.winGame) &&
                     <div className="wins">
                         <div className="bigger">Congratulations! You won this game level!</div>
-                        // Share results
                         <div>Want to play to something else?</div>
                         <div><Link to='/home'>Home</Link></div>
                     </div>
@@ -253,8 +253,6 @@ class Gameview extends Component {
                   { (this.state.wins && this.props.winGame) &&
                     <div className="wins">
                         <div className="bigger">Congratulations! You finished the game!</div>
-                        // Share results
-                        // <div><Link to='/home'>Restart</Link></div>
                     </div>
                   }
                   {!this.state.wins &&
@@ -268,7 +266,7 @@ class Gameview extends Component {
                   }
                 </div>
               }
-              { this.props.lesstry <= 0 &&
+              { this.props.nbTryGame <= 0 &&
                 <div>
                   <div className="hint">
                     Sorry... you tried enough for today!<br />
@@ -281,7 +279,8 @@ class Gameview extends Component {
       </div>
     );
   }
-
+// Share results
+// Restart game when wins everything
 }
 
 export default Gameview;

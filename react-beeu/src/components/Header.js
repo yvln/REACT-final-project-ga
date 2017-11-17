@@ -21,33 +21,28 @@ class Header extends Component {
     const starsLevel = [];
     for (let i=0; i<level; i++) {
       starsLevel.push(
-        <img className='starLevel' key={i} src='/images/starLevel.png' />
+        <img alt='x' className='starLevel' key={i} src='/images/starLevel.png' />
       )
     }
     return starsLevel;
   }
   
   finishGame() {
-    this.setState({
-      tryleft: this.props.user.tryleft - 1
-    });
-    this.props.lessTry(this.state.tryleft);
+    this.props.lessTry(this.state.tryleft - 1);
   }
 
   renderListGames() {
-    const listGames = [];
     if (this.props.games !== undefined) {
-      this.props.games.map(e => {
-        listGames.push(
+      return this.props.games.map(e => {
+        return(
           <div className='listGameHeader'
                key={e.name}
-               onClick={() => {this.props.whichGameClicked(e); this.finishGame}}>
+               onClick={() => {this.props.whichGameClicked(e); this.finishGame()}}>
             {e.name}
           </div>
         )
       })
     }
-    return listGames;
   }
   
   toggleDisplayList() {
@@ -69,13 +64,13 @@ class Header extends Component {
             <div className="Games" onClick={this.toggleDisplayList}>Games
               <div className={`listGames${this.state.listGames}`}>{this.renderListGames()}</div>
             </div>
-            <div className="NbTries">Tries left for today: <span className="bigger">{this.props.lesstry}</span></div>
+            <div className="NbTries">Tries left for today: <span className="bigger">{this.props.nbTryGame}</span></div>
             <div className="Picture">
               {!this.props.user.picture &&
-                <img className='profilePic' src='/images/user.png' />
+                <img alt='yourpic' className='profilePic' src='/images/user.png' />
               }
               {this.props.user.picture &&
-                <img className='profilePic' src={this.props.user.picture} />
+                <img alt='yourpic' className='profilePic' src={this.props.user.picture} />
               }
               <div className="Level">{this.renderLevel()}</div>
             </div>
@@ -93,7 +88,5 @@ class Header extends Component {
     );
   }
 }
-
-
 
 export default Header;

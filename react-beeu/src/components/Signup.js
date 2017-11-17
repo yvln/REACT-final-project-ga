@@ -33,6 +33,12 @@ class Signup extends Component {
         picture: this.state.picture,
         password: this.state.password,
         password_confirmation: this.state.password_confirmation,
+        max_score_game_1: 0,
+        max_score_game_2: 0,
+        max_score_game_3: 0,
+        max_score_game_4: 0,
+        max_score_game_5: 0,
+        max_score_game_6: 0,
         date_registr: new Date(),
         number_try_game: 15,
         level: 1

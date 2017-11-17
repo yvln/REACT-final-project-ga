@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import {Radar, RadarChart, PolarGrid, Legend,
+         PolarAngleAxis, PolarRadiusAxis} from 'recharts';
+
 import './Home.css';
 
 class Home extends Component {
@@ -21,11 +24,16 @@ class Home extends Component {
     });
   }
   
+  componentDidUpdate(prevProps, prevStats) {
+    if (prevProps.scoreData !== this.props.scoreData) {
+      this.renderStatUser();
+    }
+  } 
+  
   renderGamesBox() {
-    const games = [];
     if (this.props.games !== undefined) {
-      this.props.games.map( e => {
-        games.push(
+      return this.props.games.map( e => {
+        return(
           <Link className="gameBox" 
              to='/games'
              key={e.name}
@@ -36,28 +44,32 @@ class Home extends Component {
         )
       })
     }
-    return games;
   }
-      
+  
   renderStatUser() {
-    let userData = 0;
-    if (this.props.user[`max_score_game_${this.props.user.level}`] === null) {
-      userData = 0
-    } else {
-      userData = this.props.user[`max_score_game_${this.props.user.level}`]
-    }
-    return this.props.games.map( game => {
-      console.log('this.props.games', this.props.games);
-      console.log('game', game);
-      console.log('this.props.user.level', this.props.user.level);
-      return(
-        <div className="oneStat">
-          <div className="gameNameStat">{game.name}</div>
-          <div className="userGameStat">{this.props.scoreData[this.props.games.indexOf(game)]}</div>
-          <div className="maxGameStat">{game[`points_to_reach_level_${this.props.user.level}`]}</div>
-        </div>
+    const data = [];
+    this.props.games.map( game => {
+      let userscore =  this.props.scoreData[this.props.games.indexOf(game)];
+      let scoretoreach = game[`points_to_reach_level_${this.props.user.level}`];
+      data.push(
+        { 
+          gameName: game.name,
+          userscore: userscore/scoretoreach*100,
+          scoretoreach: 100
+        }
       )
     })
+    console.log('DATA IN RENDER STAT', data);
+        
+    return (
+      <RadarChart cx={300} cy={250} outerRadius={150} width={600} height={500} data={data}>
+          <PolarGrid />
+          <PolarAngleAxis dataKey="gameName" />
+          <PolarRadiusAxis dataKey="scoretoreach" />
+          <Radar dataKey="userscore" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
+      </RadarChart>
+    )
+        
   }
 
   render() {

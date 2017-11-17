@@ -1,6 +1,9 @@
 .Home {
   padding-top: 15vh;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: 
 }
 
 
@@ -13,7 +16,6 @@
     }
 
     .HomeGames {
-      height: 55vh;
       margin: 0 auto;
       width: 80%;
       display: flex;
@@ -47,5 +49,15 @@
             }
     
     .HomeStat {
-      
+      display: flex;
+      flex-direction: column;
+      width: 
     }
+    
+        .oneStat {
+          display: flex;
+        }
+          
+            .lineStat {
+              display: flex;
+            }
