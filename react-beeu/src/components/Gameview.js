@@ -7,12 +7,12 @@ import './Gameview.css';
 class Gameview extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       // game page
       rungame: 'before',
       counter: 30,
-      
+
       // user info
       tryleft: null,
       last_try: null,
@@ -22,41 +22,41 @@ class Gameview extends Component {
       numberErrorAllowed: null,
       scoreToReach: null,
       hint: '',
-      
+
       // user info on the game
       score: 0,
       error: 0,
       wins: null,
       next_level: false,
-      
+
       // game each question
       question: '',
       choice: [],
       response: ''
     }
-    
+
     this.initializeState = this.initializeState.bind(this);
-    
+
     this.getGameInfo = this.getGameInfo.bind(this);
     this.renderGame = this.renderGame.bind(this);
-    
+
     this.decreaseCounter = this.decreaseCounter.bind(this);
     this.checkCounter = this.checkCounter.bind(this);
     this.setCounter = this.setCounter.bind(this);
-    
+
     this.finishGame = this.finishGame.bind(this);
-    
+
     this.renderQuestion = this.renderQuestion.bind(this);
     this.displayQuestion = this.displayQuestion.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.gameChecker = this.gameChecker.bind(this);
   }
-  
+
   componentDidMount() {
     this.initializeState();
     this.getGameInfo();
   }
-  
+
   initializeState() {
     let maxScore = '';
     if (this.props.user[`max_score_game_${this.props.whichGame.id}`] === null) {
@@ -67,23 +67,23 @@ class Gameview extends Component {
     this.setState({
       // game page
       counter: 30,
-      
+
       // user info
       last_try: this.props.user.last_try,
       max_score: maxScore,
-      
+
       // user info on the game
       score: 0,
       error: 0,
       wins: null,
-      
+
       // game each question
       question: '',
       choice: [],
       response: ''
     })
   }
-  
+
   getGameInfo() {
     this.setState({
       numberErrorAllowed: this.props.whichGame[`nb_try_max_level_${this.props.user.level}`],
@@ -92,7 +92,7 @@ class Gameview extends Component {
       tryleft: this.props.user.number_try_game
     })
   }
-  
+
   renderGame() {
     this.initializeState();
     this.setCounter();
@@ -106,19 +106,19 @@ class Gameview extends Component {
       last_try: new Date()
     }).then( () => {})
   }
-  
-  
+
+
   setCounter() {
     this.countdown = setInterval(this.decreaseCounter, 1000);
   }
-  
+
   decreaseCounter() {
     this.setState({
       counter: this.state.counter - 1
     });
     this.checkCounter();
   }
-  
+
   checkCounter() {
     if (this.state.counter === 0) {
       this.finishGame('lose');
@@ -133,14 +133,14 @@ class Gameview extends Component {
       rungame: 'after',
       tryleft: this.state.tryleft - 1
     });
-      
+
     if (this.state.score > this.state.max_score) {
       this.props.isNextLevel(this.state.score, this.props.user.id);
       this.setState({
         max_score: this.state.score
       })
     }
-    
+
     if (WinOrLose === 'lose') {
       this.setState({
         wins: false
@@ -151,7 +151,7 @@ class Gameview extends Component {
       })
     }
   }
-  
+
   renderQuestion() {
     axios.get(`${this.props.url}/games/renderQuestion/${this.props.whichGame.id}/${this.props.user.level}`)
     .then( data => {
@@ -162,7 +162,7 @@ class Gameview extends Component {
       })
     })
   }
-  
+
   displayQuestion() {
     return (
       <div className="fullQuestionBlockContainer">
@@ -187,11 +187,11 @@ class Gameview extends Component {
             <div className="choiceQuestion" onClick={() => {this.checkAnswer(this.state.choice[3])} }>
               {this.state.choice[3]}
             </div>
-          </div> 
+          </div>
       </div>
     )
   }
-  
+
   checkAnswer(answerClicked) {
     this.gameChecker();
     if (answerClicked === this.state.response) {
@@ -207,7 +207,7 @@ class Gameview extends Component {
     }
     this.renderQuestion();
   }
-  
+
   gameChecker() {
     if (this.state.error === this.state.numberErrorAllowed) {
       this.finishGame('lose');
@@ -218,7 +218,7 @@ class Gameview extends Component {
 
   render() {
     return (
-      <div className="Gameview">
+      <div className={`Gameview ${((this.state.rungame === 'before') || (this.state.rungame === 'after')) ? `Gameview${Math.ceil(Math.random()*6)}yes` : 'Gameviewno'}`}>
           <div className="GameContainer">
               { ((this.props.nbTryGame > 0) && (this.state.rungame === 'before')) &&
                 <div className="beforePlaying">
@@ -237,7 +237,7 @@ class Gameview extends Component {
                       <div className="error">Chances: {this.state.error} / {this.state.numberErrorAllowed}</div>
                       <div className="score">Score: {this.state.score} / {this.state.scoreToReach}</div>
                       <div className="counter">00:{this.state.counter < 10 ? '0' : ''}{this.state.counter}</div>
-                    </div>  
+                    </div>
                   </div>
                   <div className="fullQuestionBlock">{this.displayQuestion()}</div>
                 </div>

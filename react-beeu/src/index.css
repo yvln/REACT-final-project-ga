@@ -13,3 +13,8 @@ input {
   font-family: 'Nova Round', cursive;
   outline: none;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}

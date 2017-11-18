@@ -8,7 +8,7 @@ import './Userprofile.css';
 class UserProfile extends Component {
   constructor(props){
     super(props);
-    
+
     this.state = {
       picture: "",
       pictureForm: false,
@@ -19,16 +19,16 @@ class UserProfile extends Component {
       lname: "",
       lnameForm: false
     }
-    
+
     this.onChange = this.onChange.bind(this);
     this.changeOnDb = this.changeOnDb.bind(this);
     this.getInfoUser = this.getInfoUser.bind(this);
   }
-  
+
   componentDidMount() {
     this.getInfoUser();
   }
-  
+
   getInfoUser() {
     this.props.updateUserInfo(this.props.user.id);
     this.setState({
@@ -38,13 +38,13 @@ class UserProfile extends Component {
       lname: this.props.user.lname
     })
   }
-  
+
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
-  
+
   changeOnDb(e) {
     e.preventDefault();
     axios.post(`${this.props.url}/userchanges`, {
@@ -54,17 +54,20 @@ class UserProfile extends Component {
       fname: this.state.fname,
       lname: this.state.lname
     }).then( res => {
-      console.log('res.data', res.data);
       this.getInfoUser();
       this.setState({
         pictureForm: false,
         usernameForm: false,
         fnameForm: false,
-        lnameForm: false
+        lnameForm: false,
+        picture: res.data.picture,
+        username: res.data.username,
+        fname: res.data.fname,
+        lname: res.data.lname
       })
     })
   }
-  
+
   makeAppear(item) {
     if (!this.state[item]) {
       this.setState({
@@ -80,9 +83,9 @@ class UserProfile extends Component {
   render() {
     return (
       <div className="UserProfile">
-        
+
         <div className="UserProfileContainer">
-        
+
           <div className='labelUserProfileStatic LevelUserProfile'>Level {this.props.user.level}</div>
           <div className='labelUserProfileStatic RegisUserProfile'>Registration date {this.props.user.date_registr.substring(0,10)}</div>
           <div className='profilePicDiv' onClick={() => {this.makeAppear('pictureForm')}}><img className='displayBigProfilPic' src={this.state.picture} alt="Add Profile Picture"/></div>
@@ -92,9 +95,9 @@ class UserProfile extends Component {
                 <input className="ok" type="submit" value="OK" />
               </form>
             </div>
-            
+
           <div className='labelUserProfile' onClick={() => {this.makeAppear('usernameForm')}}>Username</div>
-              {!this.state.usernameForm && 
+              {!this.state.usernameForm &&
                 <div className="inputUserProfile">
                   {this.state.username}
                 </div>
@@ -105,9 +108,9 @@ class UserProfile extends Component {
                   <input className="ok" type="submit" value="OK" />
                 </form>
               }
-          
+
           <div className='labelUserProfile' onClick={() => {this.makeAppear('fnameForm')}}>First name</div>
-              {!this.state.fnameForm && 
+              {!this.state.fnameForm &&
                 <div className="inputUserProfile">
                   {this.state.fname}
                 </div>
@@ -120,7 +123,7 @@ class UserProfile extends Component {
               }
 
           <div className='labelUserProfile' onClick={() => {this.makeAppear('lnameForm')}}>Last name</div>
-              {!this.state.lnameForm && 
+              {!this.state.lnameForm &&
                 <div className="inputUserProfile">
                   {this.state.lname}
                 </div>
@@ -131,11 +134,11 @@ class UserProfile extends Component {
                   <input className="ok" type="submit" value="OK" />
                 </form>
               }
-        
+
           <Link to='/home'>Home</Link>
-          
+
         </div>
-          
+
       </div>
     );
   }

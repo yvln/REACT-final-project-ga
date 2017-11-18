@@ -3,9 +3,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: 
+  background: url('/images/barcelonafull.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-
 
     .Greetings {
       height: 15vh;
@@ -13,6 +14,8 @@
       justify-content: center;
       align-items: center;
       font-size: 40px;
+      color: black;
+      text-shadow: 3px 3px 2px white;
     }
 
     .HomeGames {
@@ -23,60 +26,79 @@
       flex-wrap: wrap;
       flex: 5;
     }
-    
+
         .gameBox {
           text-decoration: none;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
           padding: 1%;
           margin: 2% 0;
-          border: 3px #FAFAFA solid;
           width: 27%;
+          height: 150px;
           cursor: pointer;
+          background-color: rgba(255,255,255, .5);
         }
-        
+
         .gameBox:hover {
-          background-color: pink;
+          background-color: rgb(255,255,255);
         }
-        
+
             .gameName {
               font-size: 25px;
-              padding-bottom: 20px;
               color: black;
             }
-            
+
             .gameRules {
               font-size: 15px;
               color: grey;
             }
-    
+
+            .gameBox:hover .gameName{
+              font-size: 30px;
+              color: rgb(215,113,94);
+            }
+
+            .gameBox:hover .gameRules{
+              font-size: 20px;
+              color: rgb(255,208,0);
+            }
+
     .HomeStat {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 30px 0;
     }
 
+        .recharts-wrapper {
+          background-color: rgba(255,255,255,.9);
+
+        }
+
 @media screen and (max-width: 900px) {
-  
+
     .HomeGames {
       width: 100%;
     }
-    
-} 
+
+}
 
 @media screen and (max-width: 710px) {
-  
+
     .gameBox {
       padding: .5%;
       margin: 1% 0;
     }
-  
+
         .gameName {
           font-size: 20px;
           padding-bottom: 10px;
         }
-        
+
         .gameRules {
           font-size: 12px;
         }
-    
-} 
+
+}

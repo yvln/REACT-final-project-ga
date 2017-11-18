@@ -3,7 +3,7 @@
   top: 0;
   width: 100vw;
   height: 15vh;
-  background-color: pink;
+  background-color: rgba(255,255,255,.9);
 }
 
 .HeaderContainer {
@@ -22,7 +22,7 @@
       text-align: left;
       padding-left: 20px;
     }
-    
+
         .Games .listGamesyes {
           transition: .5s;
           display: inline;
@@ -35,30 +35,30 @@
           background: linear-gradient(to bottom, rgba(255,255,255, 0), rgba(255,255,255, 1));
           padding: 0px 20px 20px 20px;
         }
-        
+
             .listGameHeader {
               text-decoration: none;
               color: grey;
             }
-            
+
             .listGameHeader:hover {
               color: black;
             }
-        
+
         .Games .listGamesno {
           transition: .5s;
           display: none;
         }
-        
+
     .NbTries, .LastTry {
       flex:2;
       text-align: center;
     }
-        
+
     .Name {
       flex:1;
-    } 
-    
+    }
+
     .Picture {
       flex:1;
       position: relative;
@@ -67,47 +67,47 @@
       justify-content: center;
       width: 85px;
       height: 85px;
-    } 
-    
+    }
+
         .profilePic {
-          width: 100%;
-          height: auto;
+          max-width: 100%;
+          max-height: 10vh;
           border-radius: 50%;
           border: 3px solid white;
         }
-        
+
         .Level {
           position: absolute;
           bottom: 0;
         }
-          
+
             .starLevel {
               width: 30px;
             }
-    
+
     .Logout {
       cursor: pointer;
       flex:1;
       text-align: right;
     }
-    
+
 @media screen and (max-width: 710px) {
-  
+
   .Games {
     padding-left: 5px;
   }
-  
+
       .Games .listGamesyes {
         padding: 0px 5px 5px 5px;
       }
-      
-  
+
+
 }
 
 @media screen and (max-width: 600px) {
-  
+
   .Header {
     font-size: 12px;
   }
-  
+
 }
