@@ -74,7 +74,7 @@ class Home extends Component {
     window.FB.ui({
       method: 'share',
       mobile_iframe: true,
-      href: 'https://developers.facebook.com/docs/',
+      href: 'https://beeurself.netlify.com/',
       quote: 'This game is awesome! Developed by Yveline Say http://www.yvelinesay.com/'
     }, function(response){
       console.log('response', response);

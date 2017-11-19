@@ -116,7 +116,7 @@ class Login extends Component {
                   <Link to='/signup'>SIGN UP</Link>
               </div>
               <div className='loginFB' onClick={this.loginWithFB}>
-                Sign in with Facebook
+                Connect with FB
               </div>
             </div>
           </div>

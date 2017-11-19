@@ -219,21 +219,21 @@ class Gameview extends Component {
       window.FB.ui({
         method: 'share',
         mobile_iframe: true,
-        href: 'https://developers.facebook.com/docs/',
+        href: 'https://beeurself.netlify.com/',
         quote: `I just finished this game! It is awesome, you should try!`
       })
     } else if (iswon) {
       window.FB.ui({
         method: 'share',
         mobile_iframe: true,
-        href: 'https://developers.facebook.com/docs/',
+        href: 'https://beeurself.netlify.com/',
         quote: `I just won the game ${this.props.whichGame.name}!`
       })
     } else {
       window.FB.ui({
         method: 'share',
         mobile_iframe: true,
-        href: 'https://developers.facebook.com/docs/',
+        href: 'https://beeurself.netlify.com/',
         quote: `I did my best score to the game ${this.props.whichGame.name}: ${this.state.score}!`
       })
     }
