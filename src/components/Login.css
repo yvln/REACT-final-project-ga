@@ -12,14 +12,12 @@
     
     /*For both Singup & Login*/
     .nameApp {
-      position: absolute;
-      top: 20px;
-      font-size: 51px;
-      color: white;
-      text-shadow: 1px 1px 1px black;
-      height: 82px;
-      background: url('/images/europe.png');
+      width: 100px;
+      height: 100px;
+      background: url('/images/logo.png');
       background-size: cover;
+      align-self: center;
+      margin: 0 auto;
     }
 
 

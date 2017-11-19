@@ -71,8 +71,8 @@ class Signup extends Component {
       }
       {!this.state.signupSuccess && 
         <div className="signup auth">
-        <div className="nameApp">Be EU</div>
           <div className="signupContainer authContainer">
+            <div className="nameApp"></div>
             <div className="signupTitle authTitle">SIGN UP</div>
             <form onSubmit={this.signup} className="signupForm authForm">
               <div className="signupFormItemLine authFormItem">

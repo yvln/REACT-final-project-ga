@@ -95,8 +95,8 @@ class Login extends Component {
         }
         {!this.state.loginSuccess &&
           <div className="login auth">
-            <div className="nameApp">Be EU</div>
             <div className="loginContainer authContainer">
+              <div className="nameApp"></div>
               <div className="loginTitle authTitle">LOG IN</div>
               <form onSubmit={this.login} className="loginForm authForm">
                 <div className="loginFormItem authFormItem">
