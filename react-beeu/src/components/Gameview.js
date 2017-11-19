@@ -126,9 +126,9 @@ class Gameview extends Component {
   }
 
   finishGame(WinOrLose) {
-    console.log('1 IN GAMEVIEW FINISH GAME');
     clearInterval(this.countdown);
     this.props.lessTry(this.state.tryleft-1);
+    this.props.updateLastPlay();
     this.setState({
       rungame: 'after',
       tryleft: this.state.tryleft - 1

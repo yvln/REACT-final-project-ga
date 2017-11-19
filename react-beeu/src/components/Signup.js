@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import axios from 'axios';
 import './Signup.css';
 
@@ -15,7 +15,8 @@ class Signup extends Component {
       picture: '',
       password: '',
       password_confirmation: '',
-      signupSuccess: false
+      signupSuccess: false,
+      signUpError: false
     }
     
     this.signup = this.signup.bind(this);
@@ -44,18 +45,21 @@ class Signup extends Component {
         level: 1
       })
       .then(res => {
-        this.props.setUser(res.data);
+        this.props.setUser(res.data, false);
         this.setState({
           signupSuccess: true
         })
       }).catch(err => {
-        console.log('Could not Sign Up:', err);
+        this.setState({
+          signUpError: 'All field are required'
+        });
       })
   }
   
   changeInput(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      signUpError: false
     })
   }
 
@@ -94,11 +98,16 @@ class Signup extends Component {
               <div className="signupFormItem authFormItem">
                 <input className="authInput" type="password" name="password_confirmation" value={this.state.password_confirmation} placeholder='Password confirmation' onChange={this.changeInput} />
               </div>
+              {this.state.signUpError &&
+                <div className="errorAuth">{this.state.signUpError}</div>
+              }
               <div className="signupFormItem authFormItem">
                 <input className="goButton" type="submit" value="Go" />
               </div>
             </form>
-            <div className="authLink"><a href='/login'>LOG IN</a></div>
+            <div className="authLink">
+                <Link to='/login'>LOG IN</Link>
+            </div>
           </div>
         </div>
       }

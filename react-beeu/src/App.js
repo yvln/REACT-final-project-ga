@@ -39,7 +39,8 @@ class PrivateRoute extends Component {
               lessTry={this.props.lessTry}
               nbTryGame={this.props.nbTryGame}
               scoreData={this.props.scoreData}
-              winGame={this.props.winGame} />) : (
+              winGame={this.props.winGame}
+              updateLastPlay={this.props.updateLastPlay} />) : (
             // if not, redirect to /login
             <Redirect to={
               {
@@ -67,7 +68,8 @@ class App extends Component {
       isNextLevel: false,
       nbTryGame: null,
       scoreData: [],
-      winGame: false
+      winGame: false,
+      last_try: null
     }
     this.setUser = this.setUser.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
@@ -78,6 +80,7 @@ class App extends Component {
     this.whichGameClicked = this.whichGameClicked.bind(this);
     
     this.updateUserInfo = this.updateUserInfo.bind(this);
+    this.updateLastPlay = this.updateLastPlay.bind(this);
     this.isNextLevel = this.isNextLevel.bind(this);
     this.lessTry = this.lessTry.bind(this);
   }
@@ -90,8 +93,9 @@ class App extends Component {
   
   // AUTHENTICATION 
   
-  setUser(user){
+  setUser(user, isFb){
     Cookies.set('token', user.token);
+    this.isFb = isFb
     this.setState({
       user: user,
       nbTryGame: user.number_try_game
@@ -103,6 +107,9 @@ class App extends Component {
   }
   
   logout() {
+    if (this.isFb) {
+      window.FB.logout();
+    }
     this.setState({
       user: null
     })
@@ -126,11 +133,10 @@ class App extends Component {
     const day = new Date().getDate();
     getToday = `${year}-${month}-${day}`;
     if (this.state.user.last_try !== null) {
-      if (this.state.user.last_try.substring(0,10) !== getToday) {
+      if (this.state.user.last_try !== getToday) {
         axios.post(`${this.url}/games/newDay`, {
           user_id: this.state.user.id
         }).then( res => {
-          console.log('IN AXIOS POST NEW DAY, THEN RES.DATA', res.data);
           this.setState({
             nbTryGame: res.data.number_try_game
           })
@@ -151,7 +157,6 @@ class App extends Component {
   updateUserInfo(id) {
     axios.get(`${this.url}/userinfo/${id}`)
     .then( res => {
-      console.log('res.data.data', res.data.data);
       const userDataScore = [];
       for (let i = 1 ; i <= 6 ; i++ ) {
         userDataScore.push(res.data.data[`max_score_game_${i}`])
@@ -207,6 +212,22 @@ class App extends Component {
     })
   }
   
+  updateLastPlay() {
+      let date = '';
+      const year = new Date().getFullYear();
+      const month = new Date().getMonth()+1;
+      const day = new Date().getDate();
+      date = `${year}-${month}-${day}`;
+    axios.post(`${this.url}/games/updateLastPlay`, {
+      user_id: this.state.user.id,
+      last_try: date
+    }).then( res => {
+      this.setState({
+        last_try: res.data.last_try
+      })
+    })
+  }
+  
   // RENDER
   
   render() {
@@ -221,7 +242,8 @@ class App extends Component {
                   games={this.state.games}
                   logout={this.logout}
                   nbTryGame={this.state.nbTryGame}
-                  lessTry={this.lessTry} />
+                  lessTry={this.lessTry}
+                  last_try={this.state.last_try} />
             }
             <Route
               exact path="/"
@@ -263,7 +285,6 @@ class App extends Component {
                 component={Gameview} 
                 isAuthenticated={this.isAuthenticated()}
                 initializeDay={this.initializeDay}
-                updateUserInfo={this.updateUserInfo}
                 logout={this.logout}
                 url={this.url}
                 games={this.state.games}
@@ -272,7 +293,8 @@ class App extends Component {
                 lessTry={this.lessTry}
                 nbTryGame={this.state.nbTryGame}
                 next_level={this.state.next_level}
-                winGame={this.state.winGame} />
+                winGame={this.state.winGame}
+                updateLastPlay={this.updateLastPlay} />
               <PrivateRoute
                 exact path='/profile'
                 component={Userprofile}

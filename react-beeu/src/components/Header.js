@@ -38,7 +38,7 @@ class Header extends Component {
     if (this.props.games !== undefined) {
       return this.props.games.map(e => {
         return(
-            <Link className='listGameHeader' to='/games'>
+            <Link className='listGameHeader' key={this.props.games.indexOf(e)} to='/games'>
               <div 
                    key={e.name}
                    onClick={() => {this.props.whichGameClicked(e)}}>
@@ -87,8 +87,11 @@ class Header extends Component {
               {!this.props.user.last_try &&
                 <span>Play to improve your score!</span>
               }
-              {this.props.user.last_try &&
+              {(this.props.user.last_try && !this.state.last_try) &&
                 <span>Last try: {this.props.user.last_try.substring(0, 10)}</span>
+              }
+              {(this.props.user.last_try && this.state.last_try) &&
+                <span>Last try: {this.state.last_try.substring(0, 10)}</span>
               }
             </div>
             <div className="Logout" onClick={this.props.logout}>Log Out</div>
