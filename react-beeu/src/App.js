@@ -57,7 +57,7 @@ class PrivateRoute extends Component {
 
 class App extends Component {
   
-  url = 'http://localhost:8080';
+  url = 'https://be-eurself.herokuapp.com';
   
   constructor(props) {
     super(props);

@@ -15,6 +15,7 @@ class Home extends Component {
 
     this.renderGamesBox = this.renderGamesBox.bind(this);
     this.renderStatUser = this.renderStatUser.bind(this);
+    this.shareWithFb = this.shareWithFb.bind(this);
   }
 
   componentDidMount() {
@@ -69,6 +70,17 @@ class Home extends Component {
     )
   }
 
+  shareWithFb() {
+    window.FB.ui({
+      method: 'share',
+      mobile_iframe: true,
+      href: 'https://developers.facebook.com/docs/',
+      quote: 'This game is awesome! Developed by Yveline Say http://www.yvelinesay.com/'
+    }, function(response){
+      console.log('response', response);
+    });
+  }
+  
   render() {
     return (
       <div className="Home">
@@ -78,6 +90,7 @@ class Home extends Component {
         </div>
         <div className="HomeStat">
           {this.renderStatUser()}
+        <div className="shareFb" onClick={this.shareWithFb}>SHARE</div>
         </div>
       </div>
     );

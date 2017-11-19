@@ -27,10 +27,7 @@ class Login extends Component {
         version    : 'v2.11'
       });
       window.FB.AppEvents.logPageView();
-      window.FB.getLoginStatus(function(response) {
-          console.log(response)
-          // statusChangeCallback(response);
-      });    
+      window.FB.getLoginStatus();
     };
 
     (function(d, s, id){
@@ -117,11 +114,6 @@ class Login extends Component {
               </form>
               <div className="authLink">
                   <Link to='/signup'>SIGN UP</Link>
-              </div>
-              <div className="fb-like"
-                   data-share="true"
-                   data-width="450"
-                   data-show-faces="true">
               </div>
               <div className='loginFB' onClick={this.loginWithFB}>
                 Sign in with Facebook

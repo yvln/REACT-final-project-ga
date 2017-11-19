@@ -73,29 +73,29 @@
           margin: 0 auto;
         }
 
-        .Gameview1 .go {
+        .Gameview1yes .go {
           background-color: rgb(32,170,201);
         }
 
-        .Gameview2 .go {
+        .Gameview2yes .go {
           background-color: rgb(234,202,194);
         }
 
-        .Gameview3 .go {
+        .Gameview3yes .go {
           background-color: rgb(76,114,102);
           color: white;
         }
 
-        .Gameview4 .go {
+        .Gameview4yes .go {
           background-color: rgb(221,196,146);
         }
 
-        .Gameview5 .go {
+        .Gameview5yes .go {
           background-color: rgb(124,92,74);
           color: white;
         }
 
-        .Gameview6 .go {
+        .Gameview6yes .go {
           background-color: rgb(179,155,182);
         }
 

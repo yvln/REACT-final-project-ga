@@ -101,26 +101,17 @@
                       box-shadow: 2px 4px 2px grey;
                     }
                     
-                    .loginFB {
+                    .loginFB, .shareFb {
                       color: #fff;
                       background-color: #3b5998;
                       border-color: rgba(0,0,0,0.2);
                       padding: 6px 12px;
-                      margin-bottom: 0;
+                      margin-top: 20px;
                       font-size: 14px;
                       font-weight: normal;
                       line-height: 1.42857143;
                       text-align: center;
-                      white-space: nowrap;
-                      vertical-align: middle;
-                      -ms-touch-action: manipulation;
-                      touch-action: manipulation;
                       cursor: pointer;
-                      -webkit-user-select: none;
-                      -moz-user-select: none;
-                      -ms-user-select: none;
-                      user-select: none;
-                      background-image: none;
                       border: 1px solid transparent;
                       border-radius: 4px;
                     }

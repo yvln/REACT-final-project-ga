@@ -195,12 +195,10 @@ class Gameview extends Component {
   checkAnswer(answerClicked) {
     this.gameChecker();
     if (answerClicked === this.state.response) {
-      // add condition if score reached
       this.setState({
         score: this.state.score + 1
       })
     } else if (answerClicked !== this.state.response) {
-      // Et que le nombre d'erreur autorisé n'est pas dépassé
       this.setState({
         error: this.state.error + 1
       })
@@ -214,6 +212,32 @@ class Gameview extends Component {
     } else if (this.state.score === this.state.scoreToReach ) {
       this.finishGame('win');
     }
+  }
+  
+  shareWithFb(iswon) {
+    if (iswon === 'finishgame') {
+      window.FB.ui({
+        method: 'share',
+        mobile_iframe: true,
+        href: 'https://developers.facebook.com/docs/',
+        quote: `I just finished this game! It is awesome, you should try!`
+      })
+    } else if (iswon) {
+      window.FB.ui({
+        method: 'share',
+        mobile_iframe: true,
+        href: 'https://developers.facebook.com/docs/',
+        quote: `I just won the game ${this.props.whichGame.name}!`
+      })
+    } else {
+      window.FB.ui({
+        method: 'share',
+        mobile_iframe: true,
+        href: 'https://developers.facebook.com/docs/',
+        quote: `I did my best score to the game ${this.props.whichGame.name}: ${this.state.score}!`
+      })
+    }
+    
   }
 
   render() {
@@ -247,6 +271,7 @@ class Gameview extends Component {
                   { (this.state.wins && !this.props.winGame) &&
                     <div className="wins">
                         <div className="bigger">Congratulations! You won this game level!</div>
+                        <div className="shareFb" onClick={() => {this.shareWithFb(true)}}>Share your result</div>
                         <div>Want to play to something else?</div>
                         <Link className='home' to='/home'>Home</Link>
                     </div>
@@ -254,11 +279,16 @@ class Gameview extends Component {
                   { (this.state.wins && this.props.winGame) &&
                     <div className="wins">
                         <div className="bigger">Congratulations! You finished the game!</div>
+                        <div className="shareFb" onClick={() => {this.shareWithFb('finishgame')}}>Share your result</div>
                     </div>
                   }
                   {!this.state.wins &&
                     <div className="loses">
-                        <div className="bigger">Too bad!</div>
+                        <div className="bigger">Too bad
+                        {this.state.score > this.state.max_score &&
+                          <span>...but this is your best score so far!<br />
+                          <span className="shareFb" onClick={() => {this.shareWithFb(false)}}>Share your result</span></span>}
+                        </div>
                         <div className="hint">Want to try again?</div>
                         <div className='go' onClick={this.renderGame}>GO</div>
                         <div className="hint">Want to play to something else?</div>
