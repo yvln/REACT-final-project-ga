@@ -27,7 +27,6 @@ class PrivateRoute extends Component {
           this.props.isAuthenticated ?
           ( <Component {...props}
               user={this.props.isAuthenticated}
-              logout={this.props.logout}
               url={this.props.url}
               initializeDay={this.props.initializeDay}
               updateUserInfo={this.props.updateUserInfo}
@@ -273,7 +272,6 @@ class App extends Component {
                 component={Home}
                 isAuthenticated={this.isAuthenticated()}
                 initializeDay={this.initializeDay}
-                logout={this.logout}
                 url={this.url}
                 games={this.state.games}
                 whichGameClicked={this.whichGameClicked}
@@ -285,7 +283,6 @@ class App extends Component {
                 component={Gameview}
                 isAuthenticated={this.isAuthenticated()}
                 initializeDay={this.initializeDay}
-                logout={this.logout}
                 url={this.url}
                 games={this.state.games}
                 whichGame={this.state.whichGame}
