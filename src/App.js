@@ -23,7 +23,7 @@ class PrivateRoute extends Component {
       // ...rest = tranfers all props to the Route
       <Route {...rest}
         render={ props => (
-          // if authenticate, render the Component 
+          // if authenticate, render the Component
           this.props.isAuthenticated ?
           ( <Component {...props}
               user={this.props.isAuthenticated}
@@ -45,7 +45,7 @@ class PrivateRoute extends Component {
             <Redirect to={
               {
                 pathname: '/login',
-                // give to the Login page the route where the user wanted to go in the first place 
+                // give to the Login page the route where the user wanted to go in the first place
                 state: { from: props.location }
               }
             } />
@@ -56,9 +56,9 @@ class PrivateRoute extends Component {
 }
 
 class App extends Component {
-  
+
   url = 'https://be-eurself.herokuapp.com';
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -78,21 +78,21 @@ class App extends Component {
     this.getGames = this.getGames.bind(this);
     this.initializeDay = this.initializeDay.bind(this);
     this.whichGameClicked = this.whichGameClicked.bind(this);
-    
+
     this.updateUserInfo = this.updateUserInfo.bind(this);
     this.updateLastPlay = this.updateLastPlay.bind(this);
     this.isNextLevel = this.isNextLevel.bind(this);
     this.lessTry = this.lessTry.bind(this);
   }
-  
-  // LIFE CYCLE 
-  
+
+  // LIFE CYCLE
+
   componentDidMount() {
     this.getGames();
   }
-  
-  // AUTHENTICATION 
-  
+
+  // AUTHENTICATION
+
   setUser(user, isFb){
     Cookies.set('token', user.token);
     this.isFb = isFb
@@ -101,11 +101,11 @@ class App extends Component {
       nbTryGame: user.number_try_game
     });
   }
-  
+
   isAuthenticated() {
     return this.state.user;
   }
-  
+
   logout() {
     if (this.isFb) {
       window.FB.logout();
@@ -114,9 +114,9 @@ class App extends Component {
       user: null
     })
   }
-  
+
   // GAMES
-  
+
   getGames() {
     axios.get(`${this.url}/games`)
       .then(response => {
@@ -125,7 +125,7 @@ class App extends Component {
   			})
 		}).catch(err => {console.log('err', err)});
   }
-  
+
   initializeDay() {
     let getToday = '';
     const year = new Date().getFullYear();
@@ -145,15 +145,15 @@ class App extends Component {
     }
     this.updateUserInfo(this.state.user.id);
   }
-  
+
   whichGameClicked(game) {
     this.setState({
       whichGame: game
     })
   }
-  
+
   // USER INFO ON GAMES
-  
+
   updateUserInfo(id) {
     axios.get(`${this.url}/userinfo/${id}`)
     .then( res => {
@@ -167,7 +167,7 @@ class App extends Component {
       })
     })
   }
-  
+
   isNextLevel(score, user_id) {
     axios.post(`${this.url}/games/updateMaxScore`, {
       user_id: this.state.user.id,
@@ -200,7 +200,7 @@ class App extends Component {
       }
     })
   }
-  
+
   lessTry(number) {
     axios.post(`${this.url}/games/updateNumberTry`, {
       new_nb_try: number,
@@ -211,7 +211,7 @@ class App extends Component {
       })
     })
   }
-  
+
   updateLastPlay() {
       let date = '';
       const year = new Date().getFullYear();
@@ -227,9 +227,9 @@ class App extends Component {
       })
     })
   }
-  
+
   // RENDER
-  
+
   render() {
     return (
       <div>
@@ -247,23 +247,23 @@ class App extends Component {
             }
             <Route
               exact path="/"
-              render = {() => 
+              render = {() =>
                 <Redirect to="/home" />
               } />
-            <Route 
+            <Route
               exact path='/login'
               render = {() => {
                 return (
-                  <Login 
+                  <Login
                     url={this.url}
                     setUser={this.setUser} />
                 )
               }} />
-            <Route 
+            <Route
               exact path='/signup'
               render = {() => {
                 return (
-                  <Signup 
+                  <Signup
                     url={this.url}
                     setUser={this.setUser} />
                 )
@@ -282,7 +282,7 @@ class App extends Component {
                 scoreData={this.state.scoreData} />
               <PrivateRoute
                 exact path='/games'
-                component={Gameview} 
+                component={Gameview}
                 isAuthenticated={this.isAuthenticated()}
                 initializeDay={this.initializeDay}
                 logout={this.logout}
@@ -307,7 +307,5 @@ class App extends Component {
     );
   }
 }
-
-// Affiche les erreurs login / signup
 
 export default App;

@@ -6,7 +6,7 @@ import './Signup.css';
 class Signup extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       fname: '',
       lname: '',
@@ -18,14 +18,14 @@ class Signup extends Component {
       signupSuccess: false,
       signUpError: false
     }
-    
+
     this.signup = this.signup.bind(this);
     this.changeInput = this.changeInput.bind(this);
   }
-  
+
   signup(e) {
     e.preventDefault();
-    axios.post(`${this.props.url}/signup`, 
+    axios.post(`${this.props.url}/signup`,
       {
         fname: this.state.fname,
         lname: this.state.lname,
@@ -33,16 +33,7 @@ class Signup extends Component {
         username: this.state.username,
         picture: this.state.picture,
         password: this.state.password,
-        password_confirmation: this.state.password_confirmation,
-        max_score_game_1: 0,
-        max_score_game_2: 0,
-        max_score_game_3: 0,
-        max_score_game_4: 0,
-        max_score_game_5: 0,
-        max_score_game_6: 0,
-        date_registr: new Date(),
-        number_try_game: 15,
-        level: 1
+        password_confirmation: this.state.password_confirmation
       })
       .then(res => {
         this.props.setUser(res.data, false);
@@ -55,7 +46,7 @@ class Signup extends Component {
         });
       })
   }
-  
+
   changeInput(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -66,10 +57,10 @@ class Signup extends Component {
   render() {
     return (
       <div>
-      {this.state.signupSuccess && 
+      {this.state.signupSuccess &&
         <Redirect to='/home' />
       }
-      {!this.state.signupSuccess && 
+      {!this.state.signupSuccess &&
         <div className="signup auth">
           <div className="signupContainer authContainer">
             <div className="nameApp"></div>
