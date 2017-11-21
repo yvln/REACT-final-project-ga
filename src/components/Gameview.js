@@ -194,11 +194,11 @@ class Gameview extends Component {
 
   checkAnswer(answerClicked) {
     this.gameChecker();
-    if (answerClicked === this.state.response) {
+    if ((answerClicked).toString() === (this.state.response).toString()) {
       this.setState({
         score: this.state.score + 1
       })
-    } else if (answerClicked !== this.state.response) {
+    } else if ((answerClicked).toString() !== (this.state.response).toString()) {
       this.setState({
         error: this.state.error + 1
       })
@@ -213,7 +213,7 @@ class Gameview extends Component {
       this.finishGame('win');
     }
   }
-  
+
   shareWithFb(iswon) {
     if (iswon === 'finishgame') {
       window.FB.ui({
@@ -237,7 +237,7 @@ class Gameview extends Component {
         quote: `I did my best score to the game ${this.props.whichGame.name}: ${this.state.score}!`
       })
     }
-    
+
   }
 
   render() {
