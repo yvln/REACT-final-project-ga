@@ -1,5 +1,7 @@
-# REACT-final-project-ga
+# BE EUrself
 https://beeurself.netlify.com/
+
+link to the backend repo: https://github.com/yvln/beeu-express
 
 ## Explanations of the technologies used
 NodeJS, Express, Axios, React, ReactNative.
