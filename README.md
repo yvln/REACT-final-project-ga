@@ -8,8 +8,8 @@
 - Link to the web app: https://beeurself.netlify.com/
 - Link to the back-end repo: https://github.com/yvln/beeu-express
 
-## Technologies used
-NodeJS, Express, Axios, React, ReactNative.
+## Technology used
+- ReactJs
 
 ## User stories
 As a user, I want to have my own session

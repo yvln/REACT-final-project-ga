@@ -12,8 +12,9 @@
       height: 15vh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      font-size: 40px;
+      align-items: right;
+      font-size: 30px;
+      padding-right: 15px;
       color: black;
       text-shadow: 0px 0px 10px white;
     }
