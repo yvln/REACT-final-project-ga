@@ -1,7 +1,12 @@
 # BE EUrself
-https://beeurself.netlify.com/
 
-link to the backend repo: https://github.com/yvln/beeu-express
+## Setup
+- ```npm install```
+- ```npm start```
+
+## Access
+- Link to the web app: https://beeurself.netlify.com/
+- Link to the back-end repo: https://github.com/yvln/beeu-express
 
 ## Explanations of the technologies used
 NodeJS, Express, Axios, React, ReactNative.
