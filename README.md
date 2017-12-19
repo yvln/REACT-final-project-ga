@@ -8,16 +8,8 @@
 - Link to the web app: https://beeurself.netlify.com/
 - Link to the back-end repo: https://github.com/yvln/beeu-express
 
-## Explanations of the technologies used
+## Technologies used
 NodeJS, Express, Axios, React, ReactNative.
-
-## General approach you took
-As a European, I wanted you American people to know our everyday struggle to convert all units all day long.
-
-## Repositories:
-Front-End Web App, React
-Front-End Mobile App, ReactNative
-Back-End Express.js
 
 ## User stories
 As a user, I want to have my own session
@@ -51,10 +43,3 @@ Game Page - Result
 
 User Profile
 ![user profile page](https://img4.hostingpics.net/pics/259584userprofile.png)
-
-## Unsolved problems and major hurdles
-
-- React Native not done (API & design, lack of time)
-- Difficulties to put in place Facebook authentication (what to send, how to receive what I need)
-- Manage all scenario after game (Level up? Number of tries? Wins or Lose?)
-- Update home page info immediately (A lot of callback functions and states created)
